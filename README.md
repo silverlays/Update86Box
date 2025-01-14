@@ -8,6 +8,8 @@
 - Update or download 86Box executable from the last available artifact.
 - Update or download the last ROMS package (mandatory for 86Box)
 - Show a changelog between the installed and the last version
+- Auto detect if ROMS must be updated too (based on modification date Vs last commit date)
+- Only show GUI if executable or roms must be updated, otherwise it just try the feature below.
 - Execute `86Manager.exe` (if found in the same folder) after update or close itself.
 
 ## Requirements
