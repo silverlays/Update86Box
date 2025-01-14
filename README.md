@@ -5,7 +5,7 @@
 </p>
 
 ## Features
-- Update or download 86Box executable from the last available artifact (you can choose between Old or New dynarec). Only the 64 bits version for now.
+- Update or download 86Box executable from the last available artifact (you can choose between Old and New dynarec). Only the 64 bits version for now.
 - Update or download the last ROMS package. (mandatory for 86Box)
 - Show a changelog between the installed and the last version.
 - Auto detect if ROMS must be updated too. (based on modification date Vs the last commit date)
