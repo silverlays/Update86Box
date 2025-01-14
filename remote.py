@@ -4,7 +4,7 @@ import requests
 from datetime import datetime
 from zipfile import ZipFile
 
-from PySide6.QtCore import QThread, Signal, QFile, QObject
+from PySide6.QtCore import Signal, QFile, QObject
 from PySide6.QtNetwork import QNetworkAccessManager, QNetworkRequest, QNetworkReply
 
 import local
@@ -16,7 +16,7 @@ ROMS_URL = "https://github.com/86Box/roms/archive/refs/heads/master.zip"
 
 last_build = -1
 roms_mtime = datetime(2000, 1, 1, 0, 0, 0, 0)
-download_workers: list[QThread] = []
+download_workers: list[QObject] = []
 
 
 ### DOWNLOAD THREAD START ###
