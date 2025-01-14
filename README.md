@@ -13,13 +13,13 @@
 - Execute `86Manager.exe` (if found in the same folder) after update or it just close itself.
 
 ## Requirements
+- [Python 3.5+](https://www.python.org/downloads/)
 - [PySide6](https://pypi.org/project/PySide6/)
 - [Requests](https://pypi.org/project/requests/)
+- [Nuitka](https://pypi.org/project/Nuitka/) (for building only)
 
 ## Running
-### (Require Python 3.x)
 - Just execute `python app.pyw` in a terminal.
 
 ## Building (Windows)
-### (Require [Nuitka](https://pypi.org/project/Nuitka/) package)
-- Just execute `build.bat`. A file named **86BoxUpdater.exe** file should be created in the project directory.
+- Just execute `build.bat` in a terminal. (A file named **86BoxUpdater.exe** file should be created in the project directory)
