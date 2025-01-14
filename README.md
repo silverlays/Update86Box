@@ -1,5 +1,9 @@
 # Auto Updater for 86Box with GUI (Qt)
 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/24408e2d-ec27-40a9-a7c4-58acb8962ed3"/>
+</p>
+
 ## Features
 - Update or download 86Box executable from the last available artifact.
 - Update or download the last ROMS package (mandatory for 86Box)
