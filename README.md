@@ -14,9 +14,9 @@
 
 ## Requirements
 - [Python 3.5+](https://www.python.org/downloads/)
-- [PySide6](https://pypi.org/project/PySide6/)
-- [Requests](https://pypi.org/project/requests/)
-- [Pywin32](https://pypi.org/project/pywin32/) (only for Windows)
+- [PySide6_Essentials](https://pypi.org/project/PySide6-Essentials/)
+- [requests](https://pypi.org/project/requests/)
+- [pywin32](https://pypi.org/project/pywin32/) (only for Windows)
 - [Nuitka](https://pypi.org/project/Nuitka/) (for building only)
 
 ## Running
