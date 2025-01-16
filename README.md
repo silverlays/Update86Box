@@ -19,6 +19,15 @@
 - [pywin32](https://pypi.org/project/pywin32/) (only for Windows)
 - [Nuitka](https://pypi.org/project/Nuitka/) (for building only)
 
+### How to install dependencies under Windows
+```
+python3 -m pip install --user -r requirements-win.txt
+```
+### How to install dependencies under Linux
+```
+python3 -m pip install --user -r requirements-linux.txt
+```
+
 ## Running
 ```
 python3 app.pyw
