@@ -13,7 +13,7 @@ import app_rc
 from mainwindow_ui import Ui_MainWindow
 
 
-APP = QApplication()
+APP = QApplication(sys.argv)
 
 
 class App(QMainWindow, Ui_MainWindow):
