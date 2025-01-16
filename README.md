@@ -20,7 +20,22 @@
 - [Nuitka](https://pypi.org/project/Nuitka/) (for building only)
 
 ## Running
-- Just execute `python app.pyw` in a terminal.
+```
+python3 app.pyw
+```
 
 ## Building (Windows)
-- Just execute `build.bat` in a terminal. (A file named **86BoxUpdater.exe** file should be created in the project directory)
+```
+build.bat
+```
+or
+```
+python3 -m nuitka --onefile --windows-console-mode=disable --enable-plugin=pyside6 --windows-icon-from-ico=app.ico --output-filename=86BoxUpdater.exe --deployment --remove-output app.pyw
+```
+(A file named **86BoxUpdater.exe** file should be created in the project directory)
+
+## Building (Linux)
+```
+python3 -m nuitka --onefile --windows-console-mode=disable --enable-plugin=pyside6 --windows-icon-from-ico=app.ico --output-filename=86BoxUpdater --deployment --remove-output app.pyw
+```
+(A file named **86BoxUpdater.bin** file should be created in the project directory)
