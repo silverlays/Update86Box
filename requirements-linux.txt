@@ -1,0 +1,2 @@
+PySide6_Essentials>=6.8.1
+requests>=2.32.3
