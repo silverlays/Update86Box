@@ -1,5 +1,5 @@
 @echo off
-python -m nuitka --onefile ^
+python3 -m nuitka --onefile ^
  --windows-console-mode=disable ^
  --enable-plugin=pyside6 ^
  --windows-icon-from-ico=app.ico ^
