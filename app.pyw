@@ -30,7 +30,7 @@ class App(QMainWindow, Ui_MainWindow):
     # Check if update is needed (executable + roms)
     if local.build == remote.last_build \
       and local.roms_mtime >= remote.roms_mtime:
-        self.launch86ManagerAndExit()
+        self.launch86BoxManagerAndExit()
 
     if local.roms_mtime < remote.roms_mtime:
       self.updateRomsCheckBox.setChecked(True)
@@ -43,7 +43,7 @@ class App(QMainWindow, Ui_MainWindow):
     self.setWindowFlags(Qt.WindowType.WindowCloseButtonHint)
     self.download_finished.connect(self.on_download_finished)
     self.updateNowPushButton.clicked.connect(self.updateNow)
-    self.notNowPushButton.clicked.connect(self.launch86ManagerAndExit)
+    self.notNowPushButton.clicked.connect(self.launch86BoxManagerAndExit)
 
     # Window data setup
     self.installedBuildLabel.setText(str(local.build))
@@ -53,16 +53,18 @@ class App(QMainWindow, Ui_MainWindow):
     self.show()
     sys.exit(APP.exec())
 
-  def launch86ManagerAndExit(self):
+  def launch86BoxManagerAndExit(self):
     if os.path.exists("86Manager.exe"):
       subprocess.Popen("86Manager.exe", creationflags=subprocess.DETACHED_PROCESS, close_fds=True)
+    elif os.path.exists("Avalonia86.exe"):
+      subprocess.Popen("Avalonia86.exe", creationflags=subprocess.DETACHED_PROCESS, close_fds=True)
     self.close()
     sys.exit(0)
 
   def on_download_finished(self):
     import remote
     if len(remote.download_workers) == 0:
-      self.launch86ManagerAndExit()
+      self.launch86BoxManagerAndExit()
 
   def updateNow(self):
     import remote
