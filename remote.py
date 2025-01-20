@@ -44,7 +44,6 @@ class DownloadWorker(QObject):
     self.reply.finished.connect(self.on_finished)
   
   def on_error_occured(self, error: QNetworkReply.NetworkError):
-    print(error.value)
     self.aborted.emit(str(error.value))
 
   def on_finished(self):
@@ -129,7 +128,7 @@ def download86Box(ndr: bool, pb: ProgressBarCustom = None, callback: Signal = No
   worker.run()
 
 def downloadRoms(pb: ProgressBarCustom = None, callback: Signal = None):
-  """Download the last roms repository
+  """Download the last Roms repository.
 
   Args:
       pb (ProgressBarCustom, optional): The progress bar used for progression.
@@ -153,7 +152,7 @@ def getChangelog(installed_build: int) -> str:
   """Get the changelog from the local build until the last build.
 
   Args:
-      installed_build (int): The local build number
+      installed_build (int): The local build number.
 
   Returns:
       str: Return the formatted changelog.
