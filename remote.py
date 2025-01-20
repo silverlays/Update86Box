@@ -76,7 +76,9 @@ class DownloadWorker(QObject):
   ### DOWNLOAD THREAD END ###
 
 
-
+###
+### Beginning of the code when this module is imported (This allow to limit the over-scrapping)
+###
 try:
   # Jenkins get last successful build
   response = requests.get(f"{JENKINS_BASE_URL}/api/json")
@@ -93,8 +95,19 @@ try:
     date_str = json_data[0]['commit']['verification']['verified_at']
     roms_mtime = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%SZ")
 except: pass
+###
+### End of code when this module is imported
+###
 
-def download86Box(ndr: bool, pb: ProgressBarCustom, callback: Signal):
+
+def download86Box(ndr: bool, pb: ProgressBarCustom = None, callback: Signal = None):
+  """Download the last artifact of 86Box from Jenkins.
+
+  Args:
+      ndr (bool): Specify if we must download the New Dynarec instead of the Old Dynarec.
+      pb (ProgressBarCustom, optional): The progress bar used for progression.
+      callback (Signal, optional): The signal who will be send at the end of the work.
+  """
   assert last_build != -1, "No remote build found."
   artifact_url = f"{JENKINS_BASE_URL}/{last_build}/artifact/"
   if ndr:
@@ -102,31 +115,49 @@ def download86Box(ndr: bool, pb: ProgressBarCustom, callback: Signal):
   else:
     artifact_url += f"Old Recompiler (recommended)/Windows - x64 (64-bit)/86Box-Windows-64-b{last_build}.zip"
   worker = DownloadWorker(artifact_url, os.path.join(".", local.ZIPFILE_86BOX))
-  worker.aborted.connect(pb.showErrorText)
-  worker.initiated.connect(pb.showInformationText)
-  worker.download_updated.connect(pb.setValueAndMax)
-  worker.extracting.connect(pb.showInformationText)
-  worker.destroyed.connect(pb.showDoneText)
+  if pb:
+    worker.aborted.connect(pb.showErrorText)
+    worker.initiated.connect(pb.showInformationText)
+    worker.download_updated.connect(pb.setValueAndMax)
+    worker.extracting.connect(pb.showInformationText)
+    worker.destroyed.connect(pb.showDoneText)
   worker.destroyed.connect(lambda: download_workers.remove(worker))
-  worker.destroyed.connect(callback.emit)
+  if callback:
+    worker.destroyed.connect(callback.emit)
   download_workers.append(worker)
   pb.show()
   worker.run()
 
-def downloadRoms(pb: ProgressBarCustom, callback: Signal):
+def downloadRoms(pb: ProgressBarCustom = None, callback: Signal = None):
+  """Download the last roms repository
+
+  Args:
+      pb (ProgressBarCustom, optional): The progress bar used for progression.
+      callback (Signal, optional): The signal who will be send at the end of the work.
+  """
   worker = DownloadWorker(ROMS_URL, os.path.join(".", local.ZIPFILE_ROMS))
-  worker.aborted.connect(pb.showErrorText)
-  worker.initiated.connect(pb.showInformationText)
-  worker.download_updated.connect(pb.setValueAndMax)
-  worker.extracting.connect(pb.showInformationText)
-  worker.destroyed.connect(pb.showDoneText)
+  if pb:
+    worker.aborted.connect(pb.showErrorText)
+    worker.initiated.connect(pb.showInformationText)
+    worker.download_updated.connect(pb.setValueAndMax)
+    worker.extracting.connect(pb.showInformationText)
+    worker.destroyed.connect(pb.showDoneText)
   worker.destroyed.connect(lambda: download_workers.remove(worker))
-  worker.destroyed.connect(callback.emit)
+  if callback:
+    worker.destroyed.connect(callback.emit)
   download_workers.append(worker)
   pb.show()
   worker.run()
 
 def getChangelog(installed_build: int) -> str:
+  """Get the changelog from the local build until the last build.
+
+  Args:
+      installed_build (int): The local build number
+
+  Returns:
+      str: Return the formatted changelog.
+  """
   plain_text = ""
   if installed_build != -1 and last_build != -1:
     try:
@@ -136,7 +167,7 @@ def getChangelog(installed_build: int) -> str:
           json_dict = json.loads(response.content)
           items = json_dict['changeSets'][0]['items']
           for item in items:
-            plain_text += f"(#{build}) {item['msg'] }\n"
+            plain_text += f"(#{build}) {item['msg']}\n"
       return plain_text
     except: pass
   else: return "Too long to be parsed here"
