@@ -69,7 +69,7 @@ class App(QMainWindow, Ui_MainWindow):
   def updateNow(self):
     import remote
     self.updateNowPushButton.setEnabled(False)
-    remote.download86Box(self.newDynarecCheckBox, self.pbc_86Box, self.download_finished)
+    remote.download86Box(self.newDynarecCheckBox.isChecked(), self.pbc_86Box, self.download_finished)
     if self.updateRomsCheckBox.isChecked():
       remote.downloadRoms(self.pbc_roms, self.download_finished)
 
