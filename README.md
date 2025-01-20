@@ -6,11 +6,11 @@
 
 ## Features
 - Update or download 86Box executable from the last available artifact (you can choose between Old and New dynarec). Only the 64 bits version for now.
-- Update or download the last ROMS package. (mandatory for 86Box)
+- Update or download with the last Roms repository. (mandatory for 86Box)
 - Show a changelog between the installed and the last version.
-- Auto detect if ROMS must be updated too. (based on modification date Vs the last commit date)
-- Only show GUI if executable or roms must be updated, otherwise it just try the feature below.
-- Execute `86Manager.exe` (if found in the same folder) after update or it just close itself.
+- Auto detect if Roms must be updated too. (based on modification date Vs the last commit date)
+- Only show GUI if executable or Roms must be updated, otherwise it just try the feature below.
+- Execute `86Manager.exe` or `Avalonia86.exe` (if found in the same folder) after update or just close itself.
 
 ## Requirements
 - [Python 3.5+](https://www.python.org/downloads/)
