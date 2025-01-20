@@ -10,7 +10,7 @@
 - Show a changelog between the installed and the last version.
 - Auto detect if Roms must be updated too. (based on modification date Vs the last commit date)
 - Only show GUI if executable or Roms must be updated, otherwise it just try the feature below.
-- Execute `86Manager.exe` or `Avalonia86.exe` (if found in the same folder) after update or just close itself.
+- Execute `86Manager.exe` ([https://github.com/86Box/86BoxManager](https://github.com/86Box/86BoxManager)) or `Avalonia86.exe` ([https://github.com/notBald/Avalonia86](https://github.com/notBald/Avalonia86)) (if found in the same folder) after update or just close itself.
 
 ## Requirements
 - [Python 3.5+](https://www.python.org/downloads/)
