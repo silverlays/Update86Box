@@ -80,7 +80,6 @@ class Ui_MainWindow(object):
 
         self.newDynarecCheckBox = QCheckBox(self.centralwidget)
         self.newDynarecCheckBox.setObjectName(u"newDynarecCheckBox")
-        self.newDynarecCheckBox.setChecked(True)
 
         self.verticalLayout_4.addWidget(self.newDynarecCheckBox)
 
