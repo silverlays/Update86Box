@@ -19,32 +19,27 @@
 - [pywin32](https://pypi.org/project/pywin32/) (only for Windows)
 - [Nuitka](https://pypi.org/project/Nuitka/) (for building only)
 
-### How to install dependencies under Windows
-```
-python3 -m pip install --user -r requirements-win.txt
-```
-### How to install dependencies under Linux
-```
-python3 -m pip install --user -r requirements-linux.txt
-```
+---
 
 ## Running
-```
-python3 app.pyw
-```
+### (Windows) Install dependecies first !
+`python3 -m pip install --user -r requirements-win.txt`
+### (Linux)
+`python3 -m pip install --user -r requirements-linux.txt`
+### (Windows/Linux) Run the program
+`python3 main.py`
+
+---
 
 ## Building (Windows)
 ```
-build.bat
-```
-or
-```
-python3 -m nuitka --onefile --windows-console-mode=disable --enable-plugin=pyside6 --windows-icon-from-ico=app.ico --output-filename=86BoxUpdater.exe --deployment --remove-output app.pyw
+python3 -m pip install --user -r requirements-win.txt && python3 -m nuitka --onefile --windows-console-mode=disable --enable-plugin=pyside6 --windows-icon-from-ico=app.ico --output-filename=86BoxUpdater --deployment --remove-output app.pyw
 ```
 (A file named **86BoxUpdater.exe** file should be created in the project directory)
 
 ## Building (Linux)
+### Not tested yet. It can broke. Let me know if you have issues.
 ```
-python3 -m nuitka --onefile --windows-console-mode=disable --enable-plugin=pyside6 --windows-icon-from-ico=app.ico --output-filename=86BoxUpdater --deployment --remove-output app.pyw
+python3 -m pip install --user -r requirements-linux.txt && python3 -m nuitka --onefile --windows-console-mode=disable --enable-plugin=pyside6 --windows-icon-from-ico=app.ico --output-filename=86BoxUpdater --deployment --remove-output app.pyw
 ```
 (A file named **86BoxUpdater.bin** file should be created in the project directory)
