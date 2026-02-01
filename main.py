@@ -20,22 +20,11 @@ from progressbar import ProgressBarCustom
 
 
 class LoadingWorker(QObject):
-    all_finished = Signal()
     changelog_finished = Signal(str)
-    local_finished = Signal()
-    remote_finished = Signal()
 
     def run(self):
-        # Local
-        l.load()
-        self.local_finished.emit()
-        # Remote
-        r.load()
-        self.remote_finished.emit()
-        # Changelog
         changelog = r.getChangelog(l.build)
         self.changelog_finished.emit(changelog)
-        self.all_finished.emit()
 
 
 class Main(QMainWindow, Ui_MainWindow):
@@ -46,6 +35,8 @@ class Main(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.statusbar.addPermanentWidget(StatusText.getWidget())
         s.readSettings()
+        l.load()
+        r.load()
 
         # Loading thread
         self.loading_thread = QThread()
@@ -53,10 +44,7 @@ class Main(QMainWindow, Ui_MainWindow):
         self.loading_worker.moveToThread(self.loading_thread)
 
         self.loading_thread.started.connect(self.loading_worker.run)
-        self.loading_worker.local_finished.connect(self.on_local_build_finished)
-        self.loading_worker.remote_finished.connect(self.on_remote_build_finished)
         self.loading_worker.changelog_finished.connect(self.on_changelog_received)
-        self.loading_worker.all_finished.connect(self.loading_thread.quit)
 
         self.loading_thread.start()
 
@@ -98,14 +86,8 @@ class Main(QMainWindow, Ui_MainWindow):
     def on_changelog_received(self, changelog: str):
         self.changelogTextBrowser.setMarkdown(changelog)
 
-    def on_local_build_finished(self):
-        self.installedBuildLabel.setText(str(l.build))
-
     def on_NewDynarec_toggled(self, checked: bool):
         s.new_dynarec = checked
-
-    def on_remote_build_finished(self):
-        self.lastestBuildLabel.setText(str(r._jenkins_last_build))
 
     def updateNow(self):
         self.pbc_86Box = ProgressBarCustom(c.ZIP_86BOX_NAME)
