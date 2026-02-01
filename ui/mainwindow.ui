@@ -13,10 +13,6 @@
   <property name="windowTitle">
    <string>86Box Updater</string>
   </property>
-  <property name="windowIcon">
-   <iconset resource="app.qrc">
-    <normaloff>:/icons/app.png</normaloff>:/icons/app.png</iconset>
-  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_4">
     <item>
@@ -112,12 +108,23 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QPlainTextEdit" name="changelogPlainText">
+        <widget class="QTextBrowser" name="changelogTextBrowser">
+         <property name="lineWrapMode">
+          <enum>QTextEdit::LineWrapMode::NoWrap</enum>
+         </property>
          <property name="readOnly">
           <bool>true</bool>
          </property>
-         <property name="plainText">
-          <string/>
+         <property name="markdown">
+          <string>Loading changelog...
+
+</string>
+         </property>
+         <property name="textInteractionFlags">
+          <set>Qt::TextInteractionFlag::LinksAccessibleByMouse</set>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -181,8 +188,6 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources>
-  <include location="app.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

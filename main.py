@@ -1,0 +1,133 @@
+# Python
+import os
+import subprocess
+import sys
+
+# PySide6
+from PySide6.QtCore import Qt, Signal, QObject, QThread
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QApplication, QMainWindow
+
+# Personal
+from local import Local as l
+from remote import Remote as r
+from settings import Settings as s
+from ui_tools import StatusText
+import constants as c
+
+from ui.mainwindow_ui import Ui_MainWindow
+from progressbar import ProgressBarCustom
+
+
+class LoadingWorker(QObject):
+    all_finished = Signal()
+    changelog_finished = Signal(str)
+    local_finished = Signal()
+    remote_finished = Signal()
+
+    def run(self):
+        # Local
+        l.load()
+        self.local_finished.emit()
+        # Remote
+        r.load()
+        self.remote_finished.emit()
+        # Changelog
+        changelog = r.getChangelog(l.build)
+        self.changelog_finished.emit(changelog)
+        self.all_finished.emit()
+
+
+class Main(QMainWindow, Ui_MainWindow):
+    download_finished = Signal()
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.setupUi(self)
+        self.statusbar.addPermanentWidget(StatusText.getWidget())
+        s.readSettings()
+
+        # Loading thread
+        self.loading_thread = QThread()
+        self.loading_worker = LoadingWorker()
+        self.loading_worker.moveToThread(self.loading_thread)
+
+        self.loading_thread.started.connect(self.loading_worker.run)
+        self.loading_worker.local_finished.connect(self.on_local_build_finished)
+        self.loading_worker.remote_finished.connect(self.on_remote_build_finished)
+        self.loading_worker.changelog_finished.connect(self.on_changelog_received)
+        self.loading_worker.all_finished.connect(self.loading_thread.quit)
+
+        self.loading_thread.start()
+
+        # Check if update is needed (executable + roms)
+        if l.build == r._jenkins_last_build and l.roms_mtime >= r._github_last_commit:
+            self.launch86BoxManagerAndExit()
+
+        if l.roms_mtime < r._github_last_commit:
+            self.updateRomsCheckBox.setChecked(True)
+            self.updateRomsCheckBox.setText(
+                f"{self.updateRomsCheckBox.text()} (update available)"
+            )
+
+        # Window events
+        self.setWindowFlags(Qt.WindowType.WindowCloseButtonHint)
+        self.download_finished.connect(self.on_download_finished)
+
+        ## Widgets events
+        self.newDynarecCheckBox.toggled.connect(self.on_NewDynarec_toggled)
+        self.updateNowPushButton.clicked.connect(self.updateNow)
+        self.notNowPushButton.clicked.connect(self.launch86BoxManagerAndExit)
+
+        # Window properties
+        self.newDynarecCheckBox.setChecked(bool(s.new_dynarec))
+        self.installedBuildLabel.setText(str(l.build))
+        self.lastestBuildLabel.setText(str(r._jenkins_last_build))
+
+    def launch86BoxManagerAndExit(self):
+        s.writeSettings()
+        if os.path.exists(c.EXECUTABLE_FILE):
+            os.startfile(c.EXECUTABLE_FILE)
+        self.close()
+        sys.exit(0)
+
+    def on_download_finished(self):
+        if len(r.download_workers) == 0:
+            self.launch86BoxManagerAndExit()
+
+    def on_changelog_received(self, changelog: str):
+        self.changelogTextBrowser.setMarkdown(changelog)
+
+    def on_local_build_finished(self):
+        self.installedBuildLabel.setText(str(l.build))
+
+    def on_NewDynarec_toggled(self, checked: bool):
+        s.new_dynarec = checked
+
+    def on_remote_build_finished(self):
+        self.lastestBuildLabel.setText(str(r._jenkins_last_build))
+
+    def updateNow(self):
+        self.pbc_86Box = ProgressBarCustom(c.ZIP_86BOX_NAME)
+        self.updateNowPushButton.setEnabled(False)
+        self.statusbar.addWidget(self.pbc_86Box)
+        r.download86Box(
+            self.newDynarecCheckBox.isChecked(), self.pbc_86Box, self.download_finished
+        )
+
+        if self.updateRomsCheckBox.isChecked():
+            self.pbc_roms = ProgressBarCustom(c.ZIP_ROMS_NAME)
+            self.statusbar.addWidget(self.pbc_roms)
+            r.downloadRoms(self.pbc_roms, self.download_finished)
+
+
+if __name__ == "__main__":
+    from PySide6.QtGui import QPixmap
+
+    app = QApplication()
+    app.setApplicationName("86BoxUpdater")
+    app.setDesktopFileName("86BoxUpdater")
+    app.setWindowIcon(QIcon("app.ico"))
+    window = Main()
+    window.show()
+    sys.exit(app.exec())

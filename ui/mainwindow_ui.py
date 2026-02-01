@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'mainwindow.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.1
+## Created by: Qt User Interface Compiler version 6.10.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -16,19 +16,15 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QCheckBox, QGroupBox, QHBoxLayout,
-    QLabel, QMainWindow, QMenuBar, QPlainTextEdit,
-    QPushButton, QSizePolicy, QStatusBar, QVBoxLayout,
-    QWidget)
-import app_rc
+    QLabel, QMainWindow, QMenuBar, QPushButton,
+    QSizePolicy, QStatusBar, QTextBrowser, QTextEdit,
+    QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(576, 522)
-        icon = QIcon()
-        icon.addFile(u":/icons/app.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        MainWindow.setWindowIcon(icon)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_4 = QVBoxLayout(self.centralwidget)
@@ -92,11 +88,14 @@ class Ui_MainWindow(object):
         self.groupBox.setObjectName(u"groupBox")
         self.verticalLayout = QVBoxLayout(self.groupBox)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.changelogPlainText = QPlainTextEdit(self.groupBox)
-        self.changelogPlainText.setObjectName(u"changelogPlainText")
-        self.changelogPlainText.setReadOnly(True)
+        self.changelogTextBrowser = QTextBrowser(self.groupBox)
+        self.changelogTextBrowser.setObjectName(u"changelogTextBrowser")
+        self.changelogTextBrowser.setLineWrapMode(QTextEdit.LineWrapMode.NoWrap)
+        self.changelogTextBrowser.setReadOnly(True)
+        self.changelogTextBrowser.setTextInteractionFlags(Qt.TextInteractionFlag.LinksAccessibleByMouse)
+        self.changelogTextBrowser.setOpenExternalLinks(True)
 
-        self.verticalLayout.addWidget(self.changelogPlainText)
+        self.verticalLayout.addWidget(self.changelogTextBrowser)
 
 
         self.verticalLayout_4.addWidget(self.groupBox)
@@ -153,7 +152,9 @@ class Ui_MainWindow(object):
         self.newDynarecCheckBox.setText(QCoreApplication.translate("MainWindow", u"New dynarec", None))
         self.updateRomsCheckBox.setText(QCoreApplication.translate("MainWindow", u"Update roms", None))
         self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Changelog", None))
-        self.changelogPlainText.setPlainText("")
+        self.changelogTextBrowser.setMarkdown(QCoreApplication.translate("MainWindow", u"Loading changelog...\n"
+"\n"
+"", None))
         self.updateNowPushButton.setText(QCoreApplication.translate("MainWindow", u"Update now...", None))
         self.notNowPushButton.setText(QCoreApplication.translate("MainWindow", u"Not now", None))
     # retranslateUi
