@@ -67,7 +67,7 @@ class Main(QMainWindow, Ui_MainWindow):
         self.notNowPushButton.clicked.connect(self.launch86BoxManagerAndExit)
 
         # Window properties
-        self.newDynarecCheckBox.setChecked(bool(s.new_dynarec))
+        self.newDynarecCheckBox.setChecked(bool(s.getNewDynarec()))
         self.installedBuildLabel.setText(str(l.build))
         self.lastestBuildLabel.setText(str(r._jenkins_last_build))
 
@@ -86,7 +86,7 @@ class Main(QMainWindow, Ui_MainWindow):
         self.changelogTextBrowser.setMarkdown(changelog)
 
     def on_NewDynarec_toggled(self, checked: bool):
-        s.new_dynarec = checked
+        s.setNewDynarec(checked)
 
     def updateNow(self):
         self.pbc_86Box = ProgressBarCustom(c.ZIP_86BOX_NAME)
