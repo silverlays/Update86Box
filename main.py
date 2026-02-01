@@ -1,6 +1,5 @@
 # Python
 import os
-import subprocess
 import sys
 
 # PySide6
