@@ -175,7 +175,7 @@ class Remote:
                     cls._markdown_text = "Error during the changelog request."
             return cls._markdown_text
         else:
-            return "Too long to be parsed here"
+            return f"### Too long to be parsed here.  \n####  \n#### Complete changelog can be viewed here: [{c.JENKINS_BASE_URL}/changes]({c.JENKINS_BASE_URL}/changes)"
 
     @classmethod
     def _buildArtifactURL(cls, ndr: bool):
@@ -193,13 +193,11 @@ class Remote:
             if len(items) > 1:
                 cls._markdown_text += f"[#{build}]({c.JENKINS_BASE_URL}/{build}):  \n"
                 for item in items:
-                    cls._markdown_text += f"-  {item["msg"]}  \n"
+                    cls._markdown_text += f"-  **{item["msg"]}**  \n"
                 cls._markdown_text += "\n"
             elif len(items) == 1:
-                cls._markdown_text += (
-                    f"[#{build}]({c.JENKINS_BASE_URL}/{build}): {items[0]["msg"]}\n\n"
-                )
+                cls._markdown_text += f"[#{build}]({c.JENKINS_BASE_URL}/{build}): **{items[0]["msg"]}**\n\n"
         else:
             cls._markdown_text += (
-                f"[#{build}]({c.JENKINS_BASE_URL}/{build}): No changes.\n\n"
+                f"[#{build}]({c.JENKINS_BASE_URL}/{build}): **No changes.**\n\n"
             )
