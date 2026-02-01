@@ -122,12 +122,10 @@ class Main(QMainWindow, Ui_MainWindow):
 
 
 if __name__ == "__main__":
-    from PySide6.QtGui import QPixmap
-
     app = QApplication()
     app.setApplicationName("86BoxUpdater")
     app.setDesktopFileName("86BoxUpdater")
-    app.setWindowIcon(QIcon("app.ico"))
+    app.setWindowIcon(QIcon(os.path.join(os.path.dirname(__file__), "app.ico")))
     window = Main()
     window.show()
     sys.exit(app.exec())
