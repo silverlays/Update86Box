@@ -76,7 +76,6 @@ class Main(QMainWindow, Ui_MainWindow):
     def closeEvent(self, event):
         super().closeEvent(event)
         self.settings.writeSettings()
-        app.quit()
 
     def launch86BoxManagerAndExit(self):
         if os.path.exists(self.settings.command_line):  # type: ignore
