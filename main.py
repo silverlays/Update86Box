@@ -10,7 +10,7 @@ from PySide6.QtWidgets import QApplication, QMainWindow
 # Personal
 from local import Local as l
 from remote import Remote as r
-from settings import Settings as s
+from settings import Settings
 from ui_tools import StatusText
 from constants import *
 
@@ -33,7 +33,7 @@ class Main(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.statusbar.addPermanentWidget(StatusText.getWidget())
-        s.readSettings()
+        self.settings = Settings()
         l.load()
         r.load()
 
@@ -44,6 +44,8 @@ class Main(QMainWindow, Ui_MainWindow):
 
         self.loading_thread.started.connect(self.loading_worker.run)
         self.loading_worker.changelog_finished.connect(self.on_changelog_received)
+        self.loading_worker.changelog_finished.connect(self.loading_thread.quit)
+        self.loading_worker.changelog_finished.connect(self.loading_thread.deleteLater)
 
         self.loading_thread.start()
 
@@ -58,7 +60,6 @@ class Main(QMainWindow, Ui_MainWindow):
             )
 
         # Window events
-        self.setWindowFlags(Qt.WindowType.WindowCloseButtonHint)
         self.download_finished.connect(self.on_download_finished)
 
         ## Widgets events
@@ -67,16 +68,20 @@ class Main(QMainWindow, Ui_MainWindow):
         self.notNowPushButton.clicked.connect(self.launch86BoxManagerAndExit)
 
         # Window properties
-        self.newDynarecCheckBox.setChecked(bool(s.getNewDynarec()))
+        self.setWindowFlags(Qt.WindowType.WindowCloseButtonHint)
+        self.newDynarecCheckBox.setChecked(self.settings.new_dynarec)  # type: ignore
         self.installedBuildLabel.setText(str(l.build))
         self.lastestBuildLabel.setText(str(r._jenkins_last_build))
 
+    def closeEvent(self, event):
+        super().closeEvent(event)
+        self.settings.writeSettings()
+        app.quit()
+
     def launch86BoxManagerAndExit(self):
-        s.writeSettings()
         if os.path.exists(EXECUTABLE_FILE):
             os.startfile(EXECUTABLE_FILE)
         self.close()
-        sys.exit(0)
 
     def on_download_finished(self):
         if len(r.download_workers) == 0:
@@ -86,7 +91,7 @@ class Main(QMainWindow, Ui_MainWindow):
         self.changelogTextBrowser.setMarkdown(changelog)
 
     def on_NewDynarec_toggled(self, checked: bool):
-        s.setNewDynarec(checked)
+        self.settings.new_dynarec = checked
 
     def updateNow(self):
         self.pbc_86Box = ProgressBarCustom(ZIP_86BOX_NAME)
@@ -104,8 +109,8 @@ class Main(QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     app = QApplication()
+    app.setOrganizationName("INFORLAC")
     app.setApplicationName("86BoxUpdater")
-    app.setDesktopFileName("86BoxUpdater")
     app.setWindowIcon(QIcon(os.path.join(os.path.dirname(__file__), "app.ico")))
     window = Main()
     window.show()

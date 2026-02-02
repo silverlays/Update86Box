@@ -23,7 +23,3 @@ ZIP_ROMS_FILE = os.path.join(EXECUTABLE_PATH, ZIP_ROMS_NAME)
 JENKINS_BASE_URL = "https://ci.86box.net/job/86Box"
 ROMS_COMMITS_URL = "https://api.github.com/repos/86Box/roms/commits"
 ROMS_URL = "https://github.com/86Box/roms/archive/refs/heads/master.zip"
-
-
-### SETTINGS
-SETTINGS_FILE = os.path.join(EXECUTABLE_PATH, "86BoxUpdater.json")
