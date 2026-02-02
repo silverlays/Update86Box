@@ -3,7 +3,7 @@ import os
 import sys
 
 # PySide6
-from PySide6.QtCore import Qt, Signal, QObject, QThread
+from PySide6.QtCore import Qt, Signal, QObject, QThread, QFile
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow
 
@@ -67,10 +67,19 @@ class Main(QMainWindow, Ui_MainWindow):
 
         # Window properties
         self.setWindowFlags(Qt.WindowType.WindowCloseButtonHint)
+
+        # Widgets properties
         self.newDynarecCheckBox.setChecked(self.settings.new_dynarec)  # type: ignore
         self.installedBuildLabel.setText(str(l.build))
         self.lastestBuildLabel.setText(str(r._jenkins_last_build))
+        self.commandLineCheckBox.toggled.connect(self.commandLineLineEdit.setEnabled)
+        self.commandLineCheckBox.toggled.connect(
+            self.commandLineUpdateButton.setEnabled
+        )
         self.commandLineLineEdit.setText(self.settings.command_line)  # type: ignore
+        self.commandLineUpdateButton.clicked.connect(
+            self.on_update_commandline_button_clicked
+        )
 
     def checkUpdateNeeded(self):
         if os.environ["DEBUGPY_RUNNING"]:  ### DEBUG
@@ -97,8 +106,14 @@ class Main(QMainWindow, Ui_MainWindow):
     def on_update_commandline_button_clicked(self):
         try:
             self.settings.command_line = self.commandLineLineEdit.text()
+            self.commandLineLineEdit.setProperty("error", False)
+            self.commandLineCheckBox.toggle()
         except FileNotFoundError:
             self.commandLineLineEdit.setProperty("error", True)
+
+        self.commandLineLineEdit.style().unpolish(self.commandLineLineEdit)
+        self.commandLineLineEdit.style().polish(self.commandLineLineEdit)
+        self.commandLineLineEdit.update()
 
     def updateNow(self):
         self.pbc_86Box = ProgressBarCustom(ZIP_86BOX_NAME)
@@ -119,6 +134,12 @@ if __name__ == "__main__":
     app.setOrganizationName("INFORLAC")
     app.setApplicationName("86BoxUpdater")
     app.setWindowIcon(QIcon(":/app.ico"))
+
+    style_file = QFile(":/style.css")
+    if style_file.open(QFile.OpenModeFlag.ReadOnly):
+        stylesheet = style_file.readAll().toStdString()
+        app.setStyleSheet(stylesheet)
+
     window = Main()
     window.show()
     sys.exit(app.exec())
