@@ -60,7 +60,7 @@ class Main(QMainWindow, Ui_MainWindow):
         self.download_finished.connect(self.on_download_finished)
 
         ## Widgets events
-        self.newDynarecCheckBox.toggled.connect(self.on_NewDynarec_toggled)
+        self.newDynarecCheckBox.toggled.connect(self.on_new_dynarec_toggled)
         self.updateNowPushButton.clicked.connect(self.updateNow)
         self.notNowPushButton.clicked.connect(self.launchCommandLine)
 
@@ -87,7 +87,7 @@ class Main(QMainWindow, Ui_MainWindow):
     def on_changelog_received(self, changelog: str):
         self.changelogTextBrowser.setMarkdown(changelog)
 
-    def on_NewDynarec_toggled(self, checked: bool):
+    def on_new_dynarec_toggled(self, checked: bool):
         self.settings.new_dynarec = checked
 
     def updateNow(self):
