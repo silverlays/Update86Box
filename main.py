@@ -44,14 +44,11 @@ class Main(QMainWindow, Ui_MainWindow):
 
         self.loading_thread.started.connect(self.loading_worker.run)
         self.loading_worker.changelog_finished.connect(self.on_changelog_received)
+        self.loading_worker.changelog_finished.connect(self.checkUpdateNeeded)
         self.loading_worker.changelog_finished.connect(self.loading_thread.quit)
         self.loading_worker.changelog_finished.connect(self.loading_thread.deleteLater)
 
         self.loading_thread.start()
-
-        # Check if update is needed (executable + roms)
-        if l.build == r._jenkins_last_build and l.roms_mtime >= r._github_last_commit:
-            self.launch86BoxManagerAndExit()
 
         if l.roms_mtime < r._github_last_commit:
             self.updateRomsCheckBox.setChecked(True)
@@ -65,7 +62,7 @@ class Main(QMainWindow, Ui_MainWindow):
         ## Widgets events
         self.newDynarecCheckBox.toggled.connect(self.on_NewDynarec_toggled)
         self.updateNowPushButton.clicked.connect(self.updateNow)
-        self.notNowPushButton.clicked.connect(self.launch86BoxManagerAndExit)
+        self.notNowPushButton.clicked.connect(self.launchCommandLine)
 
         # Window properties
         self.setWindowFlags(Qt.WindowType.WindowCloseButtonHint)
@@ -73,18 +70,23 @@ class Main(QMainWindow, Ui_MainWindow):
         self.installedBuildLabel.setText(str(l.build))
         self.lastestBuildLabel.setText(str(r._jenkins_last_build))
 
-    def closeEvent(self, event):
-        super().closeEvent(event)
-        self.settings.writeSettings()
+    def checkUpdateNeeded(self):
+        if l.build == r._jenkins_last_build and l.roms_mtime >= r._github_last_commit:
+            self.launchCommandLine()
+            self.close()
 
-    def launch86BoxManagerAndExit(self):
+    def closeEvent(self, event):
+        self.settings.writeSettings()
+        return super().closeEvent(event)
+
+    def launchCommandLine(self):
         if os.path.exists(self.settings.command_line):  # type: ignore
             os.startfile(self.settings.command_line)  # type: ignore
-        self.close()
 
     def on_download_finished(self):
         if len(r.download_workers) == 0:
-            self.launch86BoxManagerAndExit()
+            self.launchCommandLine()
+            self.close()
 
     def on_changelog_received(self, changelog: str):
         self.changelogTextBrowser.setMarkdown(changelog)
