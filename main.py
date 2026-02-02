@@ -12,7 +12,7 @@ from local import Local as l
 from remote import Remote as r
 from settings import Settings as s
 from ui_tools import StatusText
-import constants as c
+from constants import *
 
 from ui.mainwindow_ui import Ui_MainWindow
 from progressbar import ProgressBarCustom
@@ -73,8 +73,8 @@ class Main(QMainWindow, Ui_MainWindow):
 
     def launch86BoxManagerAndExit(self):
         s.writeSettings()
-        if os.path.exists(c.EXECUTABLE_FILE):
-            os.startfile(c.EXECUTABLE_FILE)
+        if os.path.exists(EXECUTABLE_FILE):
+            os.startfile(EXECUTABLE_FILE)
         self.close()
         sys.exit(0)
 
@@ -89,7 +89,7 @@ class Main(QMainWindow, Ui_MainWindow):
         s.setNewDynarec(checked)
 
     def updateNow(self):
-        self.pbc_86Box = ProgressBarCustom(c.ZIP_86BOX_NAME)
+        self.pbc_86Box = ProgressBarCustom(ZIP_86BOX_NAME)
         self.updateNowPushButton.setEnabled(False)
         self.statusbar.addWidget(self.pbc_86Box)
         r.download86Box(
@@ -97,7 +97,7 @@ class Main(QMainWindow, Ui_MainWindow):
         )
 
         if self.updateRomsCheckBox.isChecked():
-            self.pbc_roms = ProgressBarCustom(c.ZIP_ROMS_NAME)
+            self.pbc_roms = ProgressBarCustom(ZIP_ROMS_NAME)
             self.statusbar.addWidget(self.pbc_roms)
             r.downloadRoms(self.pbc_roms, self.download_finished)
 

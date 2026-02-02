@@ -8,7 +8,7 @@ from zipfile import ZipFile
 from PySide6.QtCore import Signal, QFile, QObject, SignalInstance
 from PySide6.QtNetwork import QNetworkAccessManager, QNetworkRequest, QNetworkReply
 
-import constants as c
+from constants import *
 from ui_tools import StatusText
 from progressbar import ProgressBarCustom
 
@@ -46,11 +46,11 @@ class DownloadWorker(QObject):
         self._target_file.write(self.reply.readAll())
         self._target_file.close()
         try:
-            if c.ZIP_86BOX_NAME in self._target_file.fileName():
+            if ZIP_86BOX_NAME in self._target_file.fileName():
                 with ZipFile(self._target_file.fileName()) as zf:
                     zf.extractall()
                 os.remove(self._target_file.fileName())
-            elif c.ZIP_ROMS_NAME in self._target_file.fileName():
+            elif ZIP_ROMS_NAME in self._target_file.fileName():
                 with ZipFile(self._target_file.fileName()) as zf:
                     for zip_info in zf.filelist:
                         if zip_info.filename != "roms-master/":
@@ -81,7 +81,7 @@ class Remote:
     def load(cls):
         # Jenkins last successful build
         with suppress(Exception):
-            response = requests.get(f"{c.JENKINS_BASE_URL}/api/json")
+            response = requests.get(f"{JENKINS_BASE_URL}/api/json")
             if response.status_code == 200:
                 json_data = json.loads(response.content)
                 cls._jenkins_last_build = int(
@@ -90,7 +90,7 @@ class Remote:
 
         # Github roms last commit date
         with suppress(Exception):
-            response = requests.get(c.ROMS_COMMITS_URL)
+            response = requests.get(ROMS_COMMITS_URL)
             if response.status_code == 200:
                 json_data = json.loads(response.content)
                 date_str = json_data[0]["commit"]["verification"]["verified_at"]
@@ -105,14 +105,14 @@ class Remote:
         """Download the last artifact of 86Box from Jenkins.
 
         Args:
-            ndr (bool): Specify if we must download the New Dynarec instead of the Old Dynarec.
+            ndr (bool): Specify if we must download the New Dynarec instead of the Old Dynare
             pb (ProgressBarCustom, optional): The progress bar used for progression.
             callback (Signal, optional): The signal who will be send at the end of the work.
         """
         if cls._jenkins_last_build == -1:
             StatusText.setText("No remote build found.")
 
-        worker = DownloadWorker(cls._buildArtifactURL(ndr), c.ZIP_86BOX_FILE)
+        worker = DownloadWorker(cls._buildArtifactURL(ndr), ZIP_86BOX_FILE)
         if pb:
             worker.aborted.connect(pb.showErrorText)
             worker.initiated.connect(pb.showInformationText)
@@ -136,7 +136,7 @@ class Remote:
             pb (ProgressBarCustom, optional): The progress bar used for progression.
             callback (Signal, optional): The signal who will be send at the end of the work.
         """
-        worker = DownloadWorker(c.ROMS_URL, c.ZIP_ROMS_FILE)
+        worker = DownloadWorker(ROMS_URL, ZIP_ROMS_FILE)
         if pb:
             worker.aborted.connect(pb.showErrorText)
             worker.initiated.connect(pb.showInformationText)
@@ -165,7 +165,7 @@ class Remote:
             for current_build in range(cls._jenkins_last_build, local_build, -1):
                 try:
                     response = requests.get(
-                        f"{c.JENKINS_BASE_URL}/{current_build}/api/json"
+                        f"{JENKINS_BASE_URL}/{current_build}/api/json"
                     )
                     if response.status_code == 200:
                         cls._AddChangesToMarkdown(
@@ -175,14 +175,14 @@ class Remote:
                     cls._markdown_text = "Error during the changelog request."
             return cls._markdown_text
         else:
-            return f"### Too long to be parsed here.  \n####  \n#### Complete changelog can be viewed here: [{c.JENKINS_BASE_URL}/changes]({c.JENKINS_BASE_URL}/changes)"
+            return f"### Too long to be parsed here.  \n####  \n#### Complete changelog can be viewed here: [{JENKINS_BASE_URL}/changes]({JENKINS_BASE_URL}/changes)"
 
     @classmethod
     def _buildArtifactURL(cls, ndr: bool):
         if ndr:
-            return f"{c.JENKINS_BASE_URL}/{cls._jenkins_last_build}/artifact/New Recompiler (beta)/Windows - x64 (64-bit)/86Box-NDR-Windows-64-b{cls._jenkins_last_build}.zip"
+            return f"{JENKINS_BASE_URL}/{cls._jenkins_last_build}/artifact/New Recompiler (beta)/Windows - x64 (64-bit)/86Box-NDR-Windows-64-b{cls._jenkins_last_build}.zip"
         else:
-            return f"{c.JENKINS_BASE_URL}/{cls._jenkins_last_build}/artifact/Old Recompiler (recommended)/Windows - x64 (64-bit)/86Box-Windows-64-b{cls._jenkins_last_build}.zip"
+            return f"{JENKINS_BASE_URL}/{cls._jenkins_last_build}/artifact/Old Recompiler (recommended)/Windows - x64 (64-bit)/86Box-Windows-64-b{cls._jenkins_last_build}.zip"
 
     @classmethod
     def _AddChangesToMarkdown(cls, build: int, json_dict: dict):
@@ -191,13 +191,15 @@ class Remote:
         if changes_set:
             items = changes_set[0]["items"]
             if len(items) > 1:
-                cls._markdown_text += f"[#{build}]({c.JENKINS_BASE_URL}/{build}):  \n"
+                cls._markdown_text += f"[#{build}]({JENKINS_BASE_URL}/{build}):  \n"
                 for item in items:
                     cls._markdown_text += f"-  **{item["msg"]}**  \n"
                 cls._markdown_text += "\n"
             elif len(items) == 1:
-                cls._markdown_text += f"[#{build}]({c.JENKINS_BASE_URL}/{build}): **{items[0]["msg"]}**\n\n"
+                cls._markdown_text += (
+                    f"[#{build}]({JENKINS_BASE_URL}/{build}): **{items[0]["msg"]}**\n\n"
+                )
         else:
             cls._markdown_text += (
-                f"[#{build}]({c.JENKINS_BASE_URL}/{build}): **No changes.**\n\n"
+                f"[#{build}]({JENKINS_BASE_URL}/{build}): **No changes.**\n\n"
             )

@@ -3,7 +3,7 @@ import win32api
 from datetime import datetime
 from contextlib import suppress
 
-import constants as c
+from constants import *
 
 
 class Local:
@@ -14,7 +14,7 @@ class Local:
     def load(cls):
         # Executable version
         with suppress(Exception):
-            version = win32api.GetFileVersionInfo(c.EXECUTABLE_FILE, "\\")
+            version = win32api.GetFileVersionInfo(EXECUTABLE_FILE, "\\")
             cls.build = version["FileVersionLS"] & 0xFFFF
 
         # Roms modification date
