@@ -24,7 +24,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(576, 621)
+        MainWindow.resize(700, 621)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_4 = QVBoxLayout(self.centralwidget)
@@ -117,6 +117,9 @@ class Ui_MainWindow(object):
 
         self.commandLineUpdateButton = QPushButton(self.groupBox_4)
         self.commandLineUpdateButton.setObjectName(u"commandLineUpdateButton")
+        self.commandLineUpdateButton.setEnabled(False)
+        self.commandLineUpdateButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.commandLineUpdateButton.setFlat(True)
 
         self.horizontalLayout_3.addWidget(self.commandLineUpdateButton)
 
@@ -152,7 +155,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 576, 33))
+        self.menubar.setGeometry(QRect(0, 0, 700, 33))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
