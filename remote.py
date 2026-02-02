@@ -161,7 +161,11 @@ class Remote:
             str: Return the formatted changelog.
         """
         cls._markdown_text = ""
-        if local_build != -1 and cls._jenkins_last_build != -1:
+        if local_build == cls._jenkins_last_build:
+            return ""
+        elif local_build == -1:
+            return f"### Too long to be parsed here.  \n####  \n#### Complete changelog can be viewed here: [{JENKINS_BASE_URL}/changes]({JENKINS_BASE_URL}/changes)"
+        else:
             for current_build in range(cls._jenkins_last_build, local_build, -1):
                 try:
                     response = requests.get(
@@ -174,8 +178,6 @@ class Remote:
                 except Exception:
                     cls._markdown_text = "Error during the changelog request."
             return cls._markdown_text
-        else:
-            return f"### Too long to be parsed here.  \n####  \n#### Complete changelog can be viewed here: [{JENKINS_BASE_URL}/changes]({JENKINS_BASE_URL}/changes)"
 
     @classmethod
     def _buildArtifactURL(cls, ndr: bool):
