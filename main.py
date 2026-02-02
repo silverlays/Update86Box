@@ -8,6 +8,7 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow
 
 # Personal
+import app_rc
 from local import Local as l
 from remote import Remote as r
 from settings import Settings
@@ -72,6 +73,8 @@ class Main(QMainWindow, Ui_MainWindow):
         self.commandLineLineEdit.setText(self.settings.command_line)  # type: ignore
 
     def checkUpdateNeeded(self):
+        if os.environ["DEBUGPY_RUNNING"]:  ### DEBUG
+            return
         if l.build == r._jenkins_last_build and l.roms_mtime >= r._github_last_commit:
             self.launchCommandLine()
             self.close()
@@ -115,7 +118,7 @@ if __name__ == "__main__":
     app = QApplication()
     app.setOrganizationName("INFORLAC")
     app.setApplicationName("86BoxUpdater")
-    app.setWindowIcon(QIcon(os.path.join(os.path.dirname(__file__), "app.ico")))
+    app.setWindowIcon(QIcon(":/app.ico"))
     window = Main()
     window.show()
     sys.exit(app.exec())
