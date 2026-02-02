@@ -79,8 +79,8 @@ class Main(QMainWindow, Ui_MainWindow):
         app.quit()
 
     def launch86BoxManagerAndExit(self):
-        if os.path.exists(EXECUTABLE_FILE):
-            os.startfile(EXECUTABLE_FILE)
+        if os.path.exists(self.settings.command_line):  # type: ignore
+            os.startfile(self.settings.command_line)  # type: ignore
         self.close()
 
     def on_download_finished(self):
