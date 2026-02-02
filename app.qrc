@@ -2,5 +2,6 @@
 <RCC version="1.0">
   <qresource prefix="/">
     <file>app.ico</file>
+    <file>style.css</file>
   </qresource>
 </RCC>

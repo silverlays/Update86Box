@@ -30,3 +30,5 @@ class Settings:
         if value and os.path.exists(value):
             self._command_line = value
             self.qs.setValue("command_line", self._command_line)
+        else:
+            raise FileNotFoundError()
