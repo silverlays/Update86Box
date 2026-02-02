@@ -16,15 +16,15 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QCheckBox, QGroupBox, QHBoxLayout,
-    QLabel, QMainWindow, QMenuBar, QPushButton,
-    QSizePolicy, QStatusBar, QTextBrowser, QTextEdit,
-    QVBoxLayout, QWidget)
+    QLabel, QLineEdit, QMainWindow, QMenuBar,
+    QPushButton, QSizePolicy, QStatusBar, QTextBrowser,
+    QTextEdit, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(576, 522)
+        MainWindow.resize(576, 621)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_4 = QVBoxLayout(self.centralwidget)
@@ -100,6 +100,29 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addWidget(self.groupBox)
 
+        self.groupBox_4 = QGroupBox(self.centralwidget)
+        self.groupBox_4.setObjectName(u"groupBox_4")
+        self.horizontalLayout_3 = QHBoxLayout(self.groupBox_4)
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.commandLineCheckBox = QCheckBox(self.groupBox_4)
+        self.commandLineCheckBox.setObjectName(u"commandLineCheckBox")
+
+        self.horizontalLayout_3.addWidget(self.commandLineCheckBox)
+
+        self.commandLineLineEdit = QLineEdit(self.groupBox_4)
+        self.commandLineLineEdit.setObjectName(u"commandLineLineEdit")
+        self.commandLineLineEdit.setEnabled(False)
+
+        self.horizontalLayout_3.addWidget(self.commandLineLineEdit)
+
+        self.commandLineUpdateButton = QPushButton(self.groupBox_4)
+        self.commandLineUpdateButton.setObjectName(u"commandLineUpdateButton")
+
+        self.horizontalLayout_3.addWidget(self.commandLineUpdateButton)
+
+
+        self.verticalLayout_4.addWidget(self.groupBox_4)
+
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.updateNowPushButton = QPushButton(self.centralwidget)
@@ -133,6 +156,7 @@ class Ui_MainWindow(object):
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
+        self.statusbar.setSizeGripEnabled(False)
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
@@ -155,6 +179,9 @@ class Ui_MainWindow(object):
         self.changelogTextBrowser.setMarkdown(QCoreApplication.translate("MainWindow", u"Loading changelog...\n"
 "\n"
 "", None))
+        self.groupBox_4.setTitle(QCoreApplication.translate("MainWindow", u"Executable launched on exit", None))
+        self.commandLineCheckBox.setText("")
+        self.commandLineUpdateButton.setText(QCoreApplication.translate("MainWindow", u"Update", None))
         self.updateNowPushButton.setText(QCoreApplication.translate("MainWindow", u"Update now...", None))
         self.notNowPushButton.setText(QCoreApplication.translate("MainWindow", u"Not now", None))
     # retranslateUi
