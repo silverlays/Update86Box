@@ -61,6 +61,10 @@ class Main(QMainWindow, Ui_MainWindow):
 
         ## Widgets events
         self.newDynarecCheckBox.toggled.connect(self.on_NewDynarec_toggled)
+        self.commandLineCheckBox.toggled.connect(self.commandLineLineEdit.setEnabled)
+        self.commandLineUpdateButton.clicked.connect(
+            self.on_update_commandline_button_clicked
+        )
         self.updateNowPushButton.clicked.connect(self.updateNow)
         self.notNowPushButton.clicked.connect(self.launchCommandLine)
 
@@ -69,6 +73,7 @@ class Main(QMainWindow, Ui_MainWindow):
         self.newDynarecCheckBox.setChecked(self.settings.new_dynarec)  # type: ignore
         self.installedBuildLabel.setText(str(l.build))
         self.lastestBuildLabel.setText(str(r._jenkins_last_build))
+        self.commandLineLineEdit.setText(self.settings.command_line)  # type: ignore
 
     def checkUpdateNeeded(self):
         if l.build == r._jenkins_last_build and l.roms_mtime >= r._github_last_commit:
@@ -89,6 +94,12 @@ class Main(QMainWindow, Ui_MainWindow):
 
     def on_NewDynarec_toggled(self, checked: bool):
         self.settings.new_dynarec = checked
+
+    def on_update_commandline_button_clicked(self):
+        try:
+            self.settings.command_line = self.commandLineLineEdit.text()
+        except FileNotFoundError:
+            self.commandLineLineEdit.setProperty("error", True)
 
     def updateNow(self):
         self.pbc_86Box = ProgressBarCustom(ZIP_86BOX_NAME)
