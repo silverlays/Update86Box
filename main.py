@@ -64,6 +64,7 @@ class Main(QMainWindow, Ui_MainWindow):
         self.newDynarecCheckBox.toggled.connect(self.on_new_dynarec_toggled)
         self.updateNowPushButton.clicked.connect(self.updateNow)
         self.notNowPushButton.clicked.connect(self.launchCommandLine)
+        self.notNowPushButton.clicked.connect(self.close)
 
         # Window properties
         self.setWindowFlags(Qt.WindowType.WindowCloseButtonHint)
