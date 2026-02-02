@@ -75,10 +75,6 @@ class Main(QMainWindow, Ui_MainWindow):
             self.launchCommandLine()
             self.close()
 
-    def closeEvent(self, event):
-        self.settings.writeSettings()
-        return super().closeEvent(event)
-
     def launchCommandLine(self):
         if os.path.exists(self.settings.command_line):  # type: ignore
             os.startfile(self.settings.command_line)  # type: ignore
