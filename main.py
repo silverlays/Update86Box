@@ -8,6 +8,7 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow
 
 # Personal
+import app_rc
 from local import Local as l
 from remote import Remote as r
 from settings import Settings
@@ -110,7 +111,7 @@ if __name__ == "__main__":
     app = QApplication()
     app.setOrganizationName("INFORLAC")
     app.setApplicationName("86BoxUpdater")
-    app.setWindowIcon(QIcon(os.path.join(os.path.dirname(__file__), "app.ico")))
+    app.setWindowIcon(QIcon(":/app.ico"))
     window = Main()
     window.show()
     sys.exit(app.exec())
