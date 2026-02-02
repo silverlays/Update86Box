@@ -71,6 +71,8 @@ class Main(QMainWindow, Ui_MainWindow):
         self.lastestBuildLabel.setText(str(r._jenkins_last_build))
 
     def checkUpdateNeeded(self):
+        if os.environ["DEBUGPY_RUNNING"]:  ### DEBUG
+            return
         if l.build == r._jenkins_last_build and l.roms_mtime >= r._github_last_commit:
             self.launchCommandLine()
             self.close()
