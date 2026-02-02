@@ -67,6 +67,9 @@ class Main(QMainWindow, Ui_MainWindow):
         self.notNowPushButton.clicked.connect(self.close)
 
         # Window properties
+        self.setWindowTitle(
+            f"{self.windowTitle()} v{VERSION_MAJOR}.{VERSION_MINOR}.{VERSION_PATCH}"
+        )
         self.setWindowFlags(Qt.WindowType.WindowCloseButtonHint)
 
         # Widgets properties

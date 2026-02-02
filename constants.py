@@ -1,14 +1,19 @@
 import os, sys
 
 
+### VERSION
+VERSION_MAJOR = 1
+VERSION_MINOR = 2
+VERSION_PATCH = 0
+
+
+### LOCAL
 EXECUTABLE_PATH = (
     os.path.abspath(".")
     if not hasattr(sys.modules[__name__], "__compiled__")
     else os.path.dirname(sys.argv[0])
 )
 
-
-### LOCAL
 EXECUTABLE_NAME = "86Box.exe"
 EXECUTABLE_FILE = os.path.join(EXECUTABLE_PATH, EXECUTABLE_NAME)
 
