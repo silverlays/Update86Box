@@ -34,7 +34,7 @@ class Main(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.statusbar.addPermanentWidget(StatusText.getWidget())
         self.settings = Settings()
-        l.load()
+        l.load(self.settings.command_line)  # type: ignore
         r.load()
 
         # Loading thread
