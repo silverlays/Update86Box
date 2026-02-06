@@ -5,6 +5,7 @@
 </p>
 
 ## Features
+
 - Update or download 86Box executable from the last available artifact (you can choose between Old and New dynarec). Only the 64 bits version for now.
 - Update or download with the last Roms repository. (mandatory for 86Box)
 - Show a changelog between the installed and the last version.
@@ -13,6 +14,7 @@
 - Execute `86Manager.exe` ([https://github.com/86Box/86BoxManager](https://github.com/86Box/86BoxManager)) or `Avalonia86.exe` ([https://github.com/notBald/Avalonia86](https://github.com/notBald/Avalonia86)) (if found in the same folder) after update or just close itself.
 
 ## Requirements
+
 - [Python 3.5+](https://www.python.org/downloads/)
 - [PySide6-Essentials](https://pypi.org/project/PySide6-Essentials/)
 - [requests](https://pypi.org/project/requests/)
@@ -21,25 +23,36 @@
 
 ---
 
-## Running
-### (Windows) Install dependecies first !
+## Running 86BoxUpdater
+
+### 1. Prerequistes
+
 `python3 -m pip install --user -r requirements-win.txt`
-### (Linux)
-`python3 -m pip install --user -r requirements-linux.txt`
-### (Windows/Linux) Run the program
+
+### 2. Running
+
 `python3 main.py`
 
 ---
 
-## Building (Windows)
-```
-python3 -m pip install --user -r requirements-win.txt && python3 -m nuitka --onefile --windows-console-mode=disable --enable-plugin=pyside6 --windows-icon-from-ico=app.ico --output-filename=86BoxUpdater --deployment --remove-output app.pyw
-```
-(A file named **86BoxUpdater.exe** file should be created in the project directory)
+## Building
 
-## Building (Linux)
-### Not tested yet. It can broke. Let me know if you have issues.
+### 1. Prerequistes
+
+`python3 -m pip install -r requirements.txt`
+
+### 2. Build with Nuitka
+
 ```
-python3 -m pip install --user -r requirements-linux.txt && python3 -m nuitka --onefile --windows-console-mode=disable --enable-plugin=pyside6 --windows-icon-from-ico=app.ico --output-filename=86BoxUpdater --deployment --remove-output app.pyw
+python3 -m nuitka \
+    --onefile \
+    --windows-console-mode=disable \
+    --enable-plugin=pyside6 \
+    --windows-icon-from-ico=app.ico \
+    --output-filename=86BoxUpdater \
+    --deployment \
+    --remove-output \
+    main.py
 ```
-(A file named **86BoxUpdater.bin** file should be created in the project directory)
+
+(A file named **86BoxUpdater.exe** file should be created in the project directory, For Linux, the file will be named **86BoxUpdater.bin**)
