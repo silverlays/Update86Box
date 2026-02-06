@@ -1,4 +1,4 @@
-import platform, os, re, win32api
+import platform, os, re
 from contextlib import suppress
 from datetime import datetime
 from pathlib import Path
@@ -17,6 +17,8 @@ class Local:
 
         # --- WINDOWS ---
         if system == "Windows":
+            import win32api
+
             with suppress(Exception):
                 version = win32api.GetFileVersionInfo(path.__str__(), "\\")
                 cls.build = version["FileVersionLS"] & 0xFFFF
