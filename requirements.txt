@@ -1,0 +1,4 @@
+Nuitka==2.7.11
+PySide6-Essentials==6.10.2
+requests==2.32.5
+pywin32==308; sys_platform == 'win32'
