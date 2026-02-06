@@ -27,7 +27,7 @@
 
 ### 1. Prerequistes
 
-`python3 -m pip install --user -r requirements-win.txt`
+`python3 -m pip install -r requirements.txt`
 
 ### 2. Running
 
@@ -35,7 +35,7 @@
 
 ---
 
-## Building
+## Building 86BoxUpdater
 
 ### 1. Prerequistes
 
