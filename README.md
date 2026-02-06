@@ -25,7 +25,7 @@
 
 ## Running 86BoxUpdater
 
-### 1. Prerequistes
+### 1. Prerequisites
 
 `python3 -m pip install -r requirements.txt`
 
@@ -37,7 +37,7 @@
 
 ## Building 86BoxUpdater
 
-### 1. Prerequistes
+### 1. Prerequisites
 
 `python3 -m pip install -r requirements.txt`
 
