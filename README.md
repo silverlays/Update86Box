@@ -1,4 +1,6 @@
 # Auto Updater for 86Box with GUI (Qt)
+> [!WARNING]
+> *Since a few months, **Windows defender** flag any file compiled with **Nuitka** as a false positive (regardless of the version)*. Unfornutaly, I don't have solution at the moment.. 😢
 
 <p align="center">
   <img width="75%" alt="image" src="https://github.com/user-attachments/assets/4d498989-5ad9-4a0b-8842-c272de98e581" />
