@@ -1,7 +1,7 @@
 # Auto Updater for 86Box with GUI (Qt)
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/24408e2d-ec27-40a9-a7c4-58acb8962ed3"/>
+  <img width="50%" alt="image" src="https://github.com/user-attachments/assets/4d498989-5ad9-4a0b-8842-c272de98e581" />
 </p>
 
 ## Features
