@@ -1,7 +1,9 @@
 # Auto Updater for 86Box with GUI (Qt)
+> [!WARNING]
+> *Since a few months, **Windows defender** flag any file compiled with **Nuitka** as a false positive (regardless of the version)*. Unfortunately, I don't have solution at the moment.. 😢 If you don't want to use the compiled version from [Releases](https://github.com/silverlays/Update86Box/releases), please refer to the [Running section](#running-86boxupdater)
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/24408e2d-ec27-40a9-a7c4-58acb8962ed3"/>
+  <img width="75%" alt="image" src="https://github.com/user-attachments/assets/4d498989-5ad9-4a0b-8842-c272de98e581" />
 </p>
 
 ## Features
