@@ -32,9 +32,18 @@ class Main(QMainWindow, Ui_MainWindow):
 
     def __init__(self) -> None:
         super().__init__()
+        self.settings = Settings()
+
+        # Do not try anything if <freeze.txt> is found in the program directory.
+        # Usefull to keep a specific version of 86Box
+        if os.path.exists(os.path.join(EXECUTABLE_PATH, "freeze.txt")):
+            self.launchCommandLine()
+            self.close()
+            sys.exit(0)
+
         self.setupUi(self)
         self.statusbar.addPermanentWidget(StatusText.getWidget())
-        self.settings = Settings()
+
         l.load(self.settings.command_line)  # type: ignore
         r.load()
 
