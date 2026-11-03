@@ -181,10 +181,14 @@ class Remote:
 
     @classmethod
     def _buildArtifactURL(cls, ndr: bool):
-        if ndr:
-            return f"{JENKINS_BASE_URL}/{cls._jenkins_last_build}/artifact/New Recompiler (beta)/Windows - x64 (64-bit)/86Box-NDR-Windows-64-b{cls._jenkins_last_build}.zip"
-        else:
-            return f"{JENKINS_BASE_URL}/{cls._jenkins_last_build}/artifact/Old Recompiler (recommended)/Windows - x64 (64-bit)/86Box-Windows-64-b{cls._jenkins_last_build}.zip"
+        # No more old/new recompiler ?
+        # FIX ME
+        # if ndr:
+        #     return f"{JENKINS_BASE_URL}/{cls._jenkins_last_build}/artifact/New Recompiler (beta)/Windows - x64 (64-bit)/86Box-NDR-Windows-64-b{cls._jenkins_last_build}.zip"
+        # else:
+        #     return f"{JENKINS_BASE_URL}/{cls._jenkins_last_build}/artifact/Old Recompiler (recommended)/Windows - x64 (64-bit)/86Box-Windows-64-b{cls._jenkins_last_build}.zip"
+
+        return f"{JENKINS_BASE_URL}/{cls._jenkins_last_build}/artifact/Windows - x64 (64-bit)/86Box-Windows-64-b{cls._jenkins_last_build}.zip"
 
     @classmethod
     def _AddChangesToMarkdown(cls, build: int, json_dict: dict):
